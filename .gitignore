@@ -5,6 +5,6 @@
 .neon
 
 # dbt
-football_etl/target/
-football_etl/dbt_packages/
-football_etl/logs/
+football_dbt/target/
+football_dbt/dbt_packages/
+football_dbt/logs/
