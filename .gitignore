@@ -1,0 +1,10 @@
+# hidden files
+.env
+.venv
+.agents
+.neon
+
+# dbt
+football_etl/target/
+football_etl/dbt_packages/
+football_etl/logs/
