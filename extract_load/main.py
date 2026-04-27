@@ -5,7 +5,6 @@ import json
 from datetime import datetime
 import logging
 import sqlalchemy
-import pandas as pd
 
 
 # INIT
@@ -30,6 +29,7 @@ if None in DB_PARAMS.values():
 
 
 # SMOKE TEST
+# TODO: refactor this and EL sections into functions?
 
 BASE = "https://v3.football.api-sports.io"
 
@@ -50,6 +50,7 @@ logging.info("[SMOKE TEST] Smoke test passed")
 
 # EXTRACT
 # TODO: when more is added to this, convert it to a loop since it will be the same structure 
+# TODO: create a config for each pipeline, which is used by E and L sections (refactored as functions)
 
 logging.info("[EXTRACT] Beginning extraction")
 
@@ -60,7 +61,7 @@ start_time  = datetime.now()
 # with open("d_leagues.json", "w") as f:
 #     f.write(json.dumps(d_leagues))
 
-with open("d_leagues.json", "r") as f:
+with open("d_leagues.json", "r") as f: # just for tests (saves API usage)
     d_leagues = json.load(f)
 end_time    = datetime.now()
 logging.info(f"[EXTRACT] Leagues extracted ({round((end_time - start_time).total_seconds(), 2)} seconds)")
