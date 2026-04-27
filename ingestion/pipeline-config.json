@@ -1,0 +1,7 @@
+{
+    "leagues": {
+        "label": "Leagues",
+        "url-suffix": "leagues",
+        "db-table": "leagues"
+    }
+}
