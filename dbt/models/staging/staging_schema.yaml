@@ -1,0 +1,75 @@
+
+version: 1
+
+models:
+  - name: stg_matchdays
+    config:
+      materialized: table
+      contract:
+        enforced: true
+    columns:
+      - name: matchday_id
+        data_type: int
+        constraints:
+          - type: primary_key
+      - name: matchday_name
+        data_type: text
+      - name: matchday_order_id
+        data_type: int
+
+  - name: stg_teams
+    config:
+      materialized: table
+      contract:
+        enforced: true
+    columns:
+      - name: team_id
+        data_type: int
+        constraints:
+          - type: primary_key
+      - name: team_name
+        data_type: text
+      - name: team_name_short
+        data_type: text
+      - name: team_icon_url
+        data_type: text
+
+  - name: stg_matches
+    config:
+      materialized: table
+      contract:
+        enforced: true
+    columns:
+      - name: match_id
+        data_type: int
+        constraints:
+          - type: primary_key
+      - name: matchday_id
+        data_type: int
+        constraints:
+          - type: foreign_key
+            to: ref('stg_matchdays')
+            to_columns: [matchday_id]
+      - name: home_team_id
+        data_type: int
+        constraints:
+          - type: foreign_key
+            to: ref('stg_teams')
+            to_columns: [team_id]
+      - name: away_team_id
+        data_type: int
+        constraints:
+          - type: foreign_key
+            to: ref('stg_teams')
+            to_columns: [team_id]
+      - name: home_team_goals
+        data_type: int
+      - name: away_team_goals
+        data_type: int
+
+sources:
+  - name: raw_data
+    database: neondb
+    schema: football_etl_raw_data
+    tables:
+      - name: matches

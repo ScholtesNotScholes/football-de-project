@@ -1,0 +1,13 @@
+version: 1
+
+models:
+  - name: league_table
+
+sources:
+  - name: staging
+    database: neondb
+    schema: football_etl_staging
+    tables:
+      - name: stg_matches
+      - name: stg_matchdays
+      - name: stg_teams
