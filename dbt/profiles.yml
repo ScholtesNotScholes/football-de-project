@@ -6,5 +6,6 @@ football_dbt:
       dbname: "{{ env_var('PGDATABASE') }}"
       user:   "{{ env_var('PGUSER') }}"
       pass:   "{{ env_var('PGPASSWORD') }}"
+      port:   5432
       schema: staging
   target: production
