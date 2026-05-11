@@ -10,6 +10,9 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
+flags:
+  send_anonymous_usage_stats: False
+
 clean-targets:
   - "target"
   - "dbt_packages"
