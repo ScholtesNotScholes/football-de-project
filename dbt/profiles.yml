@@ -7,5 +7,5 @@ football_dbt:
       user:   "{{ env_var('PGUSER') }}"
       pass:   "{{ env_var('PGPASSWORD') }}"
       port:   5432
-      schema: staging
+      schema: football_etl
   target: production
