@@ -1,6 +1,8 @@
-WITH matches_unnested AS (
+WITH latest_matches_unnested AS (
     SELECT jsonb_array_elements("data") AS "match"
-    FROM {{ source('raw_data', 'matches') }} 
+    FROM {{ source('raw_data', 'matches') }}
+	ORDER BY created_at DESC
+	LIMIT 1
 ),
 home_teams AS (
     SELECT 
@@ -8,7 +10,7 @@ home_teams AS (
 		m."match" -> 'team1' ->> 'teamName' AS team_name,
 		m."match" -> 'team1' ->> 'shortName' AS team_name_short,
 		m."match" -> 'team1' ->> 'teamIconUrl' AS team_icon_url
-    FROM matches_unnested m 
+    FROM latest_matches_unnested m 
 ),
 away_teams AS (
     SELECT 
@@ -16,7 +18,7 @@ away_teams AS (
 		m."match" -> 'team2' ->> 'teamName' AS team_name,
 		m."match" -> 'team2' ->> 'shortName' AS team_name_short,
 		m."match" -> 'team2' ->> 'teamIconUrl' AS team_icon_url
-    FROM matches_unnested m 
+    FROM latest_matches_unnested m 
 )
 SELECT DISTINCT
     team_id,
