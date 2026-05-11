@@ -1,0 +1,9 @@
+football_dbt:
+  outputs:
+    production:
+      type:   postgres
+      host:   "{{ env_var('PGHOST') }}"
+      dbname: "{{ env_var('PGDATABASE') }}"
+      user:   "{{ env_var('PGUSER') }}"
+      pass:   "{{ env_var('PGPASSWORD') }}"
+  target: production
