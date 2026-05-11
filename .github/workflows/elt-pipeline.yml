@@ -11,12 +11,10 @@ jobs:
     environment: production
 
     env:
-      PG_HOST: ${{ secrets.PG_HOST }}
+      PGHOST: ${{ secrets.PGHOST }}
       PGDATABASE: ${{ secrets.PGDATABASE }}
       PGUSER: ${{ secrets.PGUSER }}
       PGPASSWORD: ${{ secrets.PGPASSWORD }}
-      PGSSLMODE: ${{ secrets.PGSSLMODE }}
-      PGCHANNELBINDING: ${{ secrets.PGCHANNELBINDING }}
 
     steps:
       - name: Checkout code
@@ -35,4 +33,4 @@ jobs:
         run: python3 ingestion/main.py
 
       - name: Run dbt Transformations
-        run: cd dbt && dbt build
+        run: cd dbt && dbt build --project-dir .
