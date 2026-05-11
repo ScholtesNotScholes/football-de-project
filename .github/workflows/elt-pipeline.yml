@@ -14,6 +14,8 @@ jobs:
       PGDATABASE: ${{ secrets.PGDATABASE }}
       PGUSER: ${{ secrets.PGUSER }}
       PGPASSWORD: ${{ secrets.PGPASSWORD }}
+      PGSSLMODE: ${{ secrets.PGSSLMODE }}
+      PGCHANNELBINDING: ${{ secrets.PGCHANNELBINDING }}
 
     steps:
       - name: Checkout code
