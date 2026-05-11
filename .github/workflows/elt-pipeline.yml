@@ -8,6 +8,7 @@ on:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
+    environment: production
 
     env:
       PG_HOST: ${{ secrets.PG_HOST }}
@@ -34,6 +35,4 @@ jobs:
         run: python3 ingestion/main.py
 
       - name: Run dbt Transformations
-        run: |
-          cd dbt
-          dbt build
+        run: cd dbt && dbt build
