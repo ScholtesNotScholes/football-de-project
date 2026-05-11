@@ -1,8 +1,12 @@
-WITH latest_matches_unnested AS (
-    SELECT jsonb_array_elements("data") AS "match"
+WITH latest_matches AS (
+    SELECT "data"
     FROM {{ source('raw_data', 'matches') }}
-	ORDER BY created_at DESC
-	LIMIT 1
+    ORDER BY created_at DESC
+    LIMIT 1
+), 
+latest_matches_unnested AS (
+    SELECT jsonb_array_elements("data") AS "match"
+    FROM latest_matches
 )
 SELECT DISTINCT
 	(m."match" 				->> 'matchID') :: int AS match_id,
