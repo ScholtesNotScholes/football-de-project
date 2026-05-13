@@ -2,6 +2,7 @@ version: 1
 
 models:
   - name: league_table
+  - name: league_position_by_matchday
 
 sources:
   - name: staging
