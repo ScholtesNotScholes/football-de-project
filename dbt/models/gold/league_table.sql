@@ -11,6 +11,7 @@ WITH home_record AS (
 		sm.away_team_goals AS goals_conceded
 	FROM {{ source('staging', 'stg_matches') }} sm 
 ),
+
 away_record AS (
 	SELECT 
 		sm.away_team_id AS team_id,
@@ -24,12 +25,14 @@ away_record AS (
 		sm.home_team_goals AS goals_conceded
 	FROM {{ source('staging', 'stg_matches') }} sm 
 ),
+
 total_record AS (
 	SELECT 
 		r.team_id, 
 		sum(r.points) AS points_sum,
 		sum(r.goals_scored) AS goals_scored_sum, 
-		sum(r.goals_conceded) AS goals_conceded_sum
+		sum(r.goals_conceded) AS goals_conceded_sum,
+		sum(r.goals_scored - r.goals_conceded) AS goal_difference_sum
 	FROM (
 		SELECT *
 		FROM home_record 
@@ -39,14 +42,20 @@ total_record AS (
 	) r
 	GROUP BY r.team_id
 )
+
 SELECT 
-	ROW_NUMBER() OVER (ORDER BY r.points_sum DESC) AS league_position,
+	ROW_NUMBER() OVER (
+		ORDER BY 
+			r.points_sum DESC,
+			r.goal_difference_sum DESC,
+			r.goals_scored_sum DESC
+	) AS league_position,
 	st.team_name,
 	r.points_sum,
 	r.goals_scored_sum,
 	r.goals_conceded_sum,
-	r.goals_scored_sum - r.goals_conceded_sum AS goal_difference
+	r.goal_difference_sum
 FROM total_record r
 LEFT JOIN {{ source('staging', 'stg_teams') }} st 
 	ON r.team_id = st.team_id
-ORDER BY r.points_sum DESC 
+ORDER BY r.points_sum DESC, r.goal_difference_sum DESC, r.goals_scored_sum DESC
